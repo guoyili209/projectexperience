@@ -35,3 +35,10 @@ let bool = realAR>aspectRatio;//true则为刘海屏（如果是手机）
 let resultW = Math.floor(realAR/aspectRatio * Laya.stage.designWidth);
 let offsetY = (realAR-aspectRatio)**Laya.stage.height*0.5;
 ```
+
+
+#### 5、git添加忽略文件(.gitignore)
+创建一个.gitignore文件，向该文件中添加要忽略的文件或目录。但在创建并编辑这个文件之前，一定要保证要忽略的文件没有添加到git索引中。使用命令git rm –cached filename将要忽略的文件从索引中删除。
+```sh
+git rm -r -cached .
+```
