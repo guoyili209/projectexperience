@@ -42,3 +42,8 @@ let offsetY = (realAR-aspectRatio)**Laya.stage.height*0.5;
 ```sh
 git rm -r -cached .
 ```
+
+#### 6、Button拓展类
+比如集成按钮音效等
+#### 7、复杂的子系统，应该继续细分成子系统
+比如战斗系统里边的很多模块，动画管理，缓动管理，计时器管理等等；
