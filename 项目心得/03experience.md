@@ -54,3 +54,68 @@ git rm -r -cached .
 #### 10、游戏时间确定延时之类的方法，而不用client的自然时间，防止游戏卡顿带来的逻辑不同步
 #### 11、资源加载策略，进行优先级管理，先显示的先加载，后显示的可以延后加载，尽可能减少用户进入游戏的等待时间
 
+#### 12、玩家数据更新，应该分为视觉更新和数值逻辑更新，比如获得多少金币，点击OK后，刷新UI显示，其实此时已经拿到了服务器的数据了，点击ok在把数据加上去，就重复加了，和服务器数据不一致
+
+#### 13、浮点数误差比较
+```js
+//Number.EPSILON 标识等于1和大于1的最小浮点数之差
+
+//我们可以用它来设置能够接受的误差范围，比如，误差范围设为 2 的 -50 次方，如果两个浮点数的差小于这个值，我们就认为这两个浮点数相等
+function withErrorMargin(left, right) {
+  return Math.abs(left - right) < Number.EPSILON * Math.pow(2, 2);
+}
+
+console.log(withErrorMargin(0.1 + 0.2, 0.3));
+```
+#### 14、2d摄像机
+```ts
+export class Camare {
+    target
+    root
+    _x
+    _y
+    constructor(root, target) {
+        this.root = root
+        this.target = target
+    }
+
+    Update() {
+        this._x = Laya.stage.width / 2 - this.target.x
+        this._y = Laya.stage.height / 2 - this.target.y
+        this.root.x += (this._x - this.root.x) * 0.1
+        this.root.y += (this._y - this.root.y) * 0.1
+    }
+}
+```
+#### 15、2d屏幕震动
+```js
+Shake(time: number, param3: Laya.Point = null) {
+        var oldX: number = this._cur_level_view.x;
+        var oldY: number = this._cur_level_view.y;
+        var shakeX: number = oldX;
+        var shakeY: number = oldY;
+        if (param3 != null) {
+            shakeX = param3.x;
+            shakeY = param3.y;
+        }
+        var shake_range: number = 1;
+        var elapsed_time: any = 0;
+        while (elapsed_time < time) {
+            Laya.Tween.to(this._cur_level_view, {
+                "y": oldY + Math.random() * 50 * shake_range
+            }, 100, Laya.Ease.linearNone, null, elapsed_time * 100);
+            if (shake_range == 1) {
+                shake_range = -1;
+            }
+            else {
+                shake_range = 1;
+            }
+            elapsed_time++;
+        }
+        Laya.Tween.to(this._cur_level_view, {
+            "x": shakeX,
+            "y": shakeY
+        }, 100, Laya.Ease.linearNone, null, time * 100);
+    }
+```
+
